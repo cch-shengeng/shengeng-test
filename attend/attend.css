@@ -1,0 +1,126 @@
+/*
+VOICE  安靜、清楚、一手可完成——在教室門口用手機掃碼的那一分鐘。
+IDEA   深耕計畫的水彩主視覺做成一張「課程入場券」：上半是課程資訊，下半是要填的表單。
+PICTURE 頂部水彩暈染帶＋院徽；票券狀的課程卡片，步驟列標示 簽到 → 簽退 → 問卷。
+COLOUR  紙色 #fbfaf2、深綠 #2c5138、苔綠 #417345、金 #c4a46a，錯誤用磚紅。
+TYPE   標題 Noto Serif TC 900，內文 Noto Sans TC；輸入框 17px 防止手機自動放大。
+*/
+:root{
+  color-scheme:light dark;
+  --bg:light-dark(#fbfaf2,#101a14);
+  --paper:light-dark(#f3f1e3,#16231b);
+  --card:light-dark(#ffffff,#1b2b21);
+  --ink:light-dark(#22302a,#e6ebe2);
+  --muted:light-dark(#5b6660,#a9b5ac);
+  --deep:light-dark(#2c5138,#bfe0c3);
+  --green:light-dark(#417345,#8cc596);
+  --leaf:light-dark(#e3eed9,#21362a);
+  --gold:#c4a46a;
+  --gold-ink:light-dark(#7a5f2a,#e4cb93);
+  --line:light-dark(#dfe3d3,#2b3d31);
+  --err:light-dark(#a8392b,#f0a196);
+  --shadow:0 12px 30px -16px light-dark(rgba(44,81,56,.4),rgba(0,0,0,.7));
+}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans TC",system-ui,"Microsoft JhengHei",sans-serif;
+  min-height:100vh;overflow-x:clip}
+a{color:var(--green)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.wash{position:relative;height:150px;background:url(../assets/wash-b.webp) right -30px top -40px/min(520px,120vw) auto no-repeat,var(--paper);
+  -webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent)}
+:root[data-theme=dark] .wash{opacity:.25}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .wash{opacity:.25}}
+.shell{max-width:560px;margin:-118px auto 0;padding:0 16px 48px;position:relative}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--deep);margin-bottom:14px}
+.brand img{width:44px;height:44px}
+.brand b{font-family:"Noto Serif TC",serif;font-size:17px;display:block;line-height:1.2}
+.brand small{color:var(--muted);font-size:13px}
+
+h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(32px,8vw,40px);line-height:1.1;color:var(--deep);margin:0 0 14px}
+.steps{display:flex;gap:6px;margin:0 0 18px;padding:0;list-style:none;font-size:14px}
+.steps li{flex:1;text-align:center;padding:7px 4px;border-radius:999px;background:var(--leaf);color:var(--muted);font-weight:500;white-space:nowrap}
+.steps li.on{background:var(--deep);color:var(--bg);font-weight:700}
+.steps li.done{background:color-mix(in srgb,var(--gold) 30%,transparent);color:var(--gold-ink)}
+
+.ticket{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+.ev{padding:20px 22px 18px;position:relative}
+.ev h2{font-family:"Noto Serif TC",serif;font-size:21px;line-height:1.4;margin:6px 0 10px;color:var(--ink)}
+.ev dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:15px}
+.ev dt{color:var(--muted)}
+.ev dd{margin:0}
+.pill{display:inline-block;font-size:13px;font-weight:700;padding:3px 12px;border-radius:999px;background:var(--leaf);color:var(--deep)}
+.pill.open{background:var(--deep);color:var(--bg)}
+.pill.wait{background:color-mix(in srgb,var(--gold) 28%,transparent);color:var(--gold-ink)}
+.pill.closed{background:var(--paper);color:var(--muted)}
+.tear{height:0;border-top:2px dashed var(--line);margin:0 18px;position:relative}
+.tear::before,.tear::after{content:"";position:absolute;top:-13px;width:24px;height:24px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.tear::before{left:-31px}.tear::after{right:-31px}
+
+form,.done-box{padding:20px 22px 24px}
+.field{margin-bottom:16px}
+.field>label,.field>.lab{display:block;font-weight:700;margin-bottom:6px}
+.req{color:var(--err);margin-left:2px}
+.opt{color:var(--muted);font-weight:400;font-size:14px;margin-left:6px}
+input[type=text],input[type=search],select,textarea{width:100%;font:inherit;font-size:17px;min-height:48px;padding:10px 14px;
+  border:1.5px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
+textarea{min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--green);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 25%,transparent)}
+.field.bad input,.field.bad select,.field.bad textarea,.field.bad .scale{border-color:var(--err)}
+.ferr{color:var(--err);font-size:14px;margin-top:6px;min-height:0}
+.ferr:empty{display:none}
+.other{margin-top:8px}
+.hint{color:var(--muted);font-size:14px;margin:4px 0 0}
+.who{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--leaf);border-radius:12px;padding:10px 14px;margin-bottom:18px}
+.who button{font:inherit;font-size:14px;border:0;background:none;color:var(--green);font-weight:700;cursor:pointer;min-height:40px}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:54px;border:0;border-radius:14px;
+  font-family:inherit;font-weight:700;font-size:18px;line-height:1.2;cursor:pointer;text-decoration:none;background:var(--deep);color:var(--bg);margin-top:6px}
+.btn:disabled{opacity:.55;cursor:default}
+.btn.gold{background:var(--gold);color:#2b2414}
+.btn.line{background:transparent;color:var(--deep);border:1.5px solid var(--deep)}
+.formerr{background:color-mix(in srgb,var(--err) 12%,transparent);color:var(--err);border-radius:12px;padding:10px 14px;margin:0 0 14px;font-weight:500}
+.formerr:empty{display:none}
+
+/* 量表題 */
+.q{padding:14px 0 16px;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:0}
+.q .lab{font-weight:700;line-height:1.5}
+.q .num{color:var(--gold-ink);margin-right:6px}
+.scale{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:10px;border:1.5px solid transparent;border-radius:14px}
+.scale label{position:relative}
+.scale input{position:absolute;opacity:0;inset:0}
+.scale span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56px;border-radius:12px;
+  background:var(--paper);border:1.5px solid var(--line);font-weight:700;font-size:19px;cursor:pointer}
+.scale span small{font-size:11px;font-weight:500;color:var(--muted);line-height:1.2;margin-top:2px}
+.scale input:checked+span{background:var(--deep);border-color:var(--deep);color:var(--bg)}
+.scale input:checked+span small{color:var(--bg)}
+.scale input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+.choices{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.choices label{position:relative}
+.choices input{position:absolute;opacity:0;inset:0}
+.choices span{display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);cursor:pointer}
+.choices input:checked+span{background:var(--leaf);border-color:var(--green);color:var(--deep);font-weight:700}
+.choices input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+
+/* 完成畫面 */
+.done-box{text-align:center}
+.done-box .mark{width:76px;height:76px;border-radius:50%;background:var(--deep);color:var(--bg);display:grid;place-items:center;margin:6px auto 14px}
+.done-box .mark svg{width:40px;height:40px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.done-box h3{font-family:"Noto Serif TC",serif;font-size:24px;color:var(--deep);margin:0 0 6px}
+.done-box .t{font-family:"Noto Serif TC",serif;font-weight:900;font-size:40px;color:var(--deep);line-height:1.1;margin:4px 0 10px}
+.done-box p{margin:0 0 14px;color:var(--muted)}
+.next{margin-top:18px;text-align:left;background:var(--paper);border-radius:14px;padding:14px 16px;font-size:15px}
+
+.demo{background:color-mix(in srgb,var(--gold) 22%,transparent);color:var(--gold-ink);font-size:14px;border-radius:12px;padding:8px 12px;margin:0 0 12px}
+.test{background:color-mix(in srgb,var(--err) 12%,transparent);color:var(--err);font-size:14px;border-radius:12px;padding:8px 12px;margin:0 0 12px}
+.foot{text-align:center;color:var(--muted);font-size:13px;margin-top:22px}
+.foot a{font-weight:700}
+.loading{padding:40px 22px;text-align:center;color:var(--muted)}
+.spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--green);border-radius:50%;margin:0 auto 10px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+@media (max-width:380px){.ev,form,.done-box{padding-left:16px;padding-right:16px}.scale span{min-height:50px;font-size:17px}.scale span small{display:none}}

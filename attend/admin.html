@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>簽到管理｜彰基教學部深耕計畫</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../assets/logo-seal.png">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="attend.css">
+<style>
+.shell.wide{max-width:1080px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+.bar select{flex:1 1 280px;width:auto}
+.bar .btn{width:auto;min-height:48px;padding:0 18px;font-size:15px;margin:0}
+.upd{color:var(--muted);font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.kpi dt{color:var(--muted);font-size:14px}
+.kpi dd{margin:0;font-family:"Noto Serif TC",serif;font-weight:900;font-size:36px;color:var(--deep);line-height:1.15}
+.kpi dd small{font-family:"Noto Sans TC",sans-serif;font-size:14px;font-weight:500;color:var(--green);margin-left:6px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin-bottom:18px}
+.panel h2{font-family:"Noto Serif TC",serif;font-size:21px;color:var(--deep);margin:0 0 12px}
+.qr-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.qr{text-align:center;border:1px dashed var(--line);border-radius:14px;padding:14px}
+.qr .code{display:flex;justify-content:center;background:#fff;padding:10px;border-radius:10px;margin:8px auto}
+.qr .code img,.qr .code canvas{width:170px!important;height:170px!important}
+.qr b{font-family:"Noto Serif TC",serif;font-size:22px;color:var(--deep)}
+.qr a{font-size:13px;word-break:break-all}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 3em;gap:10px;align-items:center;margin:6px 0;font-size:15px}
+.track{height:12px;background:var(--paper);border-radius:6px;overflow:hidden;margin-top:4px}
+.fill{height:100%;background:var(--green);border-radius:6px}
+.score{display:grid;grid-template-columns:minmax(0,1fr) 4.5em;gap:4px 14px;padding:10px 0;border-top:1px solid var(--line)}
+.score:first-of-type{border-top:0}
+.score .avg{font-family:"Noto Serif TC",serif;font-weight:900;font-size:26px;color:var(--deep);text-align:right;line-height:1}
+.dist{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--paper);grid-column:1/-1}
+.dist span{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.texts{margin:6px 0 0;padding-left:18px;font-size:15px}
+.texts li{margin:4px 0}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:500;font-size:14px}
+td.c{text-align:center;white-space:nowrap}
+.ok{color:var(--green);font-weight:700}
+.no{color:var(--muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.tools input{flex:1 1 220px;width:auto}
+.tools .btn{width:auto;min-height:48px;padding:0 16px;font-size:15px;margin:0}
+.login{max-width:420px}
+@media (max-width:760px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.qr-grid,.two{grid-template-columns:1fr}
+  table.stack thead{display:none}table.stack tr{display:grid;padding:8px 0;border-bottom:1px solid var(--line)}
+  table.stack td{border:0;padding:2px 0;padding-inline-start:5.5em}table.stack td::before{content:attr(data-l);float:inline-start;width:5em;margin-inline-start:-5.5em;color:var(--muted);font-size:13px}
+  td.c{text-align:left}}
+@media print{.wash,.brand,.bar,.kpis,.panel:not(.print-me),#banner,h1,.qr a{display:none!important}.shell{margin:0}.panel{border:0}.qr{break-inside:avoid;border:1px solid #999}}
+</style>
+</head>
+<body>
+<div class="wash" aria-hidden="true"></div>
+<main class="shell wide">
+  <a class="brand" href="../"><img src="../assets/logo-seal.png" alt="" width="44" height="44"><span><b>彰化基督教醫院</b><small>教學部深耕計畫</small></span></a>
+  <h1>簽到管理</h1>
+  <div id="banner"></div>
+  <div id="app"><div class="loading"><div class="spin"></div>讀取中…</div></div>
+</main>
+<script src="qrcode.min.js"></script><!-- qrcodejs 1.0.0, MIT License, davidshimjs -->
+<script src="attend-config.js"></script>
+<script src="attend.js"></script>
+<script>
+{
+const CFG = window.ATTEND_CONFIG || {}, api = window.AttendAPI;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const COLORS = ['#c0573f', '#e0a26a', '#cfc8a8', '#7fae7a', '#2c5138'];
+let key = '', curId = '', timer = null, last = null, q = '';
+try { key = sessionStorage.getItem('cch-attend-key') || ''; } catch(e){}
+if (window.AttendDemo) $('#banner').innerHTML = '<p class="demo">示範模式：顯示的是這台裝置上試填的資料。</p>';
+
+function login(msg){
+  $('#app').innerHTML = `<form class="panel login" id="lg" novalidate>
+    <h2>請輸入管理密碼</h2><p class="formerr" id="formErr">${esc(msg || '')}</p>
+    <div class="field" data-f="pw"><label for="pw">密碼</label><input type="text" id="pw" autocomplete="current-password" style="-webkit-text-security:disc"><div class="ferr"></div></div>
+    <button class="btn" type="submit">登入</button></form>`;
+  $('#pw').focus();
+  $('#lg').onsubmit = e => { e.preventDefault(); const v = $('#pw').value.trim();
+    if (!v){ $('#formErr').textContent = '請輸入密碼'; return; }
+    key = v; load(); };
+}
+
+async function load(){
+  let r;
+  try { r = await api('admin', {key, id: curId}); } catch(e){ $('#upd') ? $('#upd').textContent = '連線失敗，稍後自動重試' : login('連線失敗，請稍後再試'); return; }
+  if (!r.ok){ if (r.badKey || /密碼|ADMIN_KEY/.test(r.error)){ try { sessionStorage.removeItem('cch-attend-key'); } catch(e){} clearInterval(timer); login(r.error); } else $('#app').innerHTML = `<div class="panel">${esc(r.error)}</div>`; return; }
+  try { sessionStorage.setItem('cch-attend-key', key); } catch(e){}
+  last = r; curId = r.event ? r.event.id : '';
+  render();
+  clearInterval(timer); timer = setInterval(load, 30000);
+}
+
+function render(){
+  const r = last;
+  if (!r.event){ $('#app').innerHTML = '<div class="panel">「活動設定」還沒有任何活動。</div>'; return; }
+  const a = r.attendees, n = a.length, out = a.filter(x => x.checkout).length, fb = a.filter(x => x.feedback).length;
+  const pct = (x, y) => y ? Math.round(x / y * 100) + '%' : '–';
+  const orgs = {}; a.forEach(x => orgs[x.org] = (orgs[x.org] || 0) + 1);
+  const orgRows = Object.entries(orgs).sort((x, y) => y[1] - x[1]);
+  const maxOrg = Math.max(1, ...orgRows.map(x => x[1]));
+  const ev = r.event, now = new Date();
+  const list = a.filter(x => !q || Object.values(x).join(' ').toLowerCase().includes(q));
+  $('#app').innerHTML = `
+  <div class="bar">
+    <label class="sr" for="evSel">選擇活動</label>
+    <select id="evSel">${r.events.map(e => `<option value="${esc(e.id)}"${e.id === ev.id ? ' selected' : ''}>${esc(e.date)}　${esc(e.title)}${e.active ? '（啟用中）' : ''}</option>`).join('')}</select>
+    <button class="btn line" type="button" id="re">重新整理</button>
+    <span class="upd" id="upd">更新於 ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}，每 30 秒自動更新</span>
+  </div>
+  ${ev.test ? '<p class="test">這場活動目前是「測試模式」，不限時間開放。正式上課前請到試算表取消勾選，並刪除測試資料。</p>' : ''}
+  <dl class="kpis">
+    <div class="kpi"><dt>已簽到</dt><dd>${n}<small>人</small></dd></div>
+    <div class="kpi"><dt>已簽退</dt><dd>${out}<small>${pct(out, n)}</small></dd></div>
+    <div class="kpi"><dt>問卷回收</dt><dd>${fb}<small>${pct(fb, n)}</small></dd></div>
+    <div class="kpi"><dt>簽到時間</dt><dd style="font-size:22px;padding-top:8px">${esc(ev.windows.checkin[0] || '不限')}–${esc(ev.windows.checkin[1] || '')}</dd></div>
+  </dl>
+  <section class="panel print-me"><h2>現場 QR Code</h2>
+    <div class="qr-grid">${['checkin', 'checkout', 'feedback'].map((m, i) => `<div class="qr"><b>${['簽到', '簽退', '滿意度問卷'][i]}</b>
+      <div class="code" id="qr-${m}"></div><a href="${esc((CFG.links || {})[m] || '')}">${esc((CFG.links || {})[m] || '尚未設定縮網址')}</a></div>`).join('')}</div>
+    <div class="tools" style="margin-top:12px"><button class="btn line" type="button" id="pr">列印 QR Code</button></div>
+  </section>
+  <div class="two">
+    <section class="panel"><h2>各機構簽到人數</h2>${orgRows.length ? orgRows.map(([o, c]) =>
+      `<div class="row"><div>${esc(o)}<div class="track"><div class="fill" style="width:${c / maxOrg * 100}%"></div></div></div><b style="text-align:right">${c}</b></div>`).join('') : '<p class="hint">還沒有人簽到。</p>'}</section>
+    <section class="panel"><h2>滿意度</h2>${scores(r.stats)}</section>
+  </div>
+  <section class="panel"><h2>簽到名單（${n} 人）</h2>
+    <div class="tools"><label class="sr" for="find">搜尋</label><input type="search" id="find" placeholder="搜尋姓名、機構、職類" value="${esc(q)}">
+      <button class="btn line" type="button" id="csv">下載 CSV</button></div>
+    ${list.length ? `<table class="stack"><thead><tr><th>姓名</th><th>服務機構</th><th>職類</th><th>單位／員編</th><th>簽到</th><th>簽退</th><th>問卷</th></tr></thead><tbody>
+      ${list.map(x => `<tr><td data-l="姓名"><b>${esc(x.name)}</b></td><td data-l="機構">${esc(x.org)}</td><td data-l="職類">${esc(x.title)}</td>
+        <td data-l="單位">${esc([x.dept, x.empno].filter(Boolean).join('／'))}</td><td class="c" data-l="簽到">${esc(x.checkin)}</td>
+        <td class="c" data-l="簽退">${x.checkout ? esc(x.checkout) : '<span class="no">—</span>'}</td>
+        <td class="c" data-l="問卷">${x.feedback ? '<span class="ok">已填</span>' : '<span class="no">未填</span>'}</td></tr>`).join('')}</tbody></table>`
+      : `<p class="hint">${n ? '沒有符合搜尋的資料。' : '還沒有人簽到。'}</p>`}
+  </section>`;
+  ['checkin', 'checkout', 'feedback'].forEach(m => {
+    const u = (CFG.links || {})[m], el = $('#qr-' + m);
+    if (u && window.QRCode) new QRCode(el, {text: u, width: 340, height: 340, correctLevel: QRCode.CorrectLevel.M});
+    else if (el) el.innerHTML = '<span class="hint">無法產生</span>';
+  });
+  $('#evSel').onchange = e => { curId = e.target.value; load(); };
+  $('#re').onclick = load;
+  $('#pr').onclick = () => { try { window.print(); } catch(e){} };
+  $('#find').oninput = e => { q = e.target.value.trim().toLowerCase(); const pos = e.target.selectionStart; render(); const f = $('#find'); f.focus(); f.setSelectionRange(pos, pos); };
+  $('#csv').onclick = () => downloadCsv(r);
+}
+
+function scores(stats){
+  const sc = stats.filter(s => s.type === '量表'), tx = stats.filter(s => s.type !== '量表');
+  if (!stats.length) return '<p class="hint">沒有題目。</p>';
+  const lab = ['非常不同意', '不同意', '普通', '同意', '非常同意'];
+  return sc.map(s => `<div class="score"><div>${esc(s.text)}<div class="hint">${s.n} 人回答</div></div><div class="avg">${s.avg ? s.avg.toFixed(2) : '–'}</div>
+      <div class="dist" title="1～5 分人數：${s.dist.join('、')}">${s.dist.map((c, i) => c ? `<span style="width:${c / s.n * 100}%;background:${COLORS[i]}"></span>` : '').join('')}</div></div>`).join('')
+    + (sc.length ? `<div class="legend">${lab.map((l, i) => `<span><i style="background:${COLORS[i]}"></i>${i + 1} ${l}</span>`).join('')}</div>` : '')
+    + tx.map(s => `<div class="score"><div style="grid-column:1/-1"><b>${esc(s.text)}</b>${s.answers.length ? `<ul class="texts">${s.answers.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : '<div class="hint">尚無回答</div>'}</div></div>`).join('');
+}
+
+function downloadCsv(r){
+  const rows = [['姓名', '服務機構', '職類', '單位科別', '員工編號', '簽到', '簽退', '問卷']].concat(
+    r.attendees.map(x => [x.name, x.org, x.title, x.dept, x.empno, x.checkin, x.checkout, x.feedback ? '已填' : '']));
+  const csv = '﻿' + rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv;charset=utf-8'}));
+  a.download = `簽到名單_${r.event.date.replace(/\//g, '')}_${r.event.title}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+if (key || window.AttendDemo) load(); else login();
+}
+</script>
+</body>
+</html>
