@@ -171,6 +171,17 @@ img{max-width:100%;display:block}
 .empty{padding:32px;text-align:center;color:var(--muted);background:var(--paper);border-radius:var(--r)}
 .hint{color:var(--muted);font-size:14px;margin-top:18px}
 
+/* ---------- 上課當天：簽到簽退 ---------- */
+.attend{display:flex;align-items:center;justify-content:space-between;gap:18px 28px;flex-wrap:wrap;margin-top:22px;padding:20px 24px;
+  border-radius:var(--r);background:var(--leaf);border:1px solid var(--line)}
+.attend-txt{flex:1 1 300px}
+.attend h3{font-family:"Noto Serif TC",serif;font-size:22px;color:var(--deep);margin:0 0 4px}
+.attend p{margin:0;color:var(--muted);font-size:15px}
+.attend-btns{display:flex;gap:10px;flex-wrap:wrap}
+.attend-btns .btn{min-width:104px}
+.attend-btns .btn{white-space:nowrap}
+@media (max-width:600px){.attend{padding:18px}.attend-btns{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.attend-btns .btn{min-width:0;padding:10px 6px;font-size:15px}}
+
 /* ---------- records ---------- */
 .band-paper{background:var(--paper)}
 .two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(28px,5vw,64px)}
