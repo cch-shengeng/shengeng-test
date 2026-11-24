@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>彰基教學部深耕計畫專區</title>
+<meta name="description" content="彰化基督教醫院教學部深耕計畫：跨域共享・智教深耕，建構彰投醫教卓越共榮新典範。課程報名、計畫成果、工作會議紀錄與數位學習資源。">
+<link rel="icon" href="assets/logo-seal.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="#top" aria-label="回到頁首">
+    <img src="assets/logo-seal.png" alt="" width="44" height="44">
+    <span><b>彰化基督教醫院</b><small>教學部深耕計畫專區</small></span>
+  </a>
+  <nav class="nav" id="mainNav" aria-label="主選單">
+    <a href="#about">計畫簡介</a>
+    <a href="#highlights">成果亮點</a>
+    <a href="#courses">課程報名</a>
+    <a href="#records">成果與議錄</a>
+    <a href="#resources">教學資源</a>
+    <a href="#contact">聯絡窗口</a>
+  </nav>
+  <a class="btn btn-gold top-cta" href="#courses">課程報名</a>
+  <button type="button" class="menu-btn" id="menuBtn" aria-controls="mainNav" aria-expanded="false" aria-label="開啟選單">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<main id="top">
+  <!-- ========== 首屏 ========== -->
+  <section class="hero">
+    <div class="hero-art">
+      <img src="assets/illust.webp" alt="社區巡迴車、騎機車的醫護人員與長輩的水彩插畫" width="1100" height="782">
+      <aside class="next-card" id="nextCard" aria-live="polite"></aside>
+    </div>
+    <div class="hero-copy">
+      <p class="kicker">健康台灣深耕計畫　·　彰基教學部</p>
+      <h1>跨域共享<br>智教深耕</h1>
+      <p class="lead">建構彰投醫教卓越共榮新典範</p>
+      <p class="sub">整合雲端平台與標竿制度，推動醫學教育轉型，打造資源平權的區域共學網絡。</p>
+      <div class="hero-btns">
+        <a class="btn btn-green" href="#courses">查看近期課程</a>
+        <a class="btn btn-line" href="#highlights">計畫成果</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 最新公告跑馬燈（試算表「公告」分頁） ========== -->
+  <div class="ticker" aria-label="最新公告">
+    <span class="ticker-label">最新公告</span>
+    <div class="ticker-win"><div class="ticker-track" id="ticker"></div></div>
+  </div>
+
+  <!-- ========== 計畫簡介 ========== -->
+  <section class="band" id="about">
+    <div class="wrap">
+      <h2 class="h2">三條主軸，<br><em>讓彰投的教學資源一起長大。</em></h2>
+      <div class="pillars">
+        <article class="pillar">
+          <span class="pill-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.96A6 6 0 0 0 6.1 9.5 4.3 4.3 0 0 0 7 18Z"/></svg></span>
+          <h3>雲端共享平台</h3>
+          <p>醫學教育合作數位學習平台、圖書館文獻傳遞、癌症多專科討論平台，合作醫院同仁隨時可用。</p>
+        </article>
+        <article class="pillar">
+          <span class="pill-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9Z"/></svg></span>
+          <h3>標竿教學制度</h3>
+          <p>EPA 實作輔導、臨床能力評核委員會（CCC）觀摩、導師研習營與計畫主持人工作坊，把制度帶進合作醫院。</p>
+        </article>
+        <article class="pillar">
+          <span class="pill-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="6" cy="7" r="2.6"/><circle cx="18" cy="7" r="2.6"/><circle cx="12" cy="17" r="2.6"/><path d="M8 8.5l2.8 6.3M16 8.5l-2.8 6.3M8.6 7h6.8"/></svg></span>
+          <h3>區域共學網絡</h3>
+          <p>跨院工作坊、教學模組交付、VR 教學師資培育，與部立南投醫院、南投基督教醫院、埔里基督教醫院共學共好。</p>
+        </article>
+      </div>
+      <dl class="stats" id="stats"></dl>
+    </div>
+  </section>
+
+  <!-- ========== 成果亮點（「成果」分頁中「精選」打勾者） ========== -->
+  <section class="band band-wash" id="highlights">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h2">不只上課，<br><em>更把成果帶回每一家醫院。</em></h2>
+        <a class="more" id="resultsMore" href="#">看全部成果 →</a>
+      </div>
+      <div class="feature-grid" id="features"></div>
+    </div>
+  </section>
+
+  <!-- ========== 課程報名（「課程」分頁） ========== -->
+  <section class="band" id="courses">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h2">課程與活動，<br><em>找到適合你的那一堂。</em></h2>
+        <a class="more" id="coursesMore" href="#">原系統課程清單 →</a>
+      </div>
+      <div class="filters" role="group" aria-label="課程篩選">
+        <div class="seg" id="fStatus">
+          <button type="button" data-v="upcoming" aria-pressed="true">即將開課</button>
+          <button type="button" data-v="all" aria-pressed="false">全部</button>
+          <button type="button" data-v="past" aria-pressed="false">已結束</button>
+        </div>
+        <div class="chips" id="fType"></div>
+        <label class="search"><span class="sr">搜尋課程</span>
+          <input id="fSearch" type="search" placeholder="搜尋課程、地點、對象">
+        </label>
+      </div>
+      <ol class="course-list" id="courseList"></ol>
+      <p class="hint">報名表單由 Google 表單／Microsoft Forms 收件；標示「洽合作醫院窗口」者，請向貴院窗口報名（<a id="contactLink" href="#">各指標業務窗口</a>）。</p>
+    </div>
+  </section>
+
+  <!-- ========== 成果分享＋工作討論議錄 ========== -->
+  <section class="band band-paper" id="records">
+    <div class="wrap two-col">
+      <div>
+        <h2 class="h3">計畫成果分享</h2>
+        <ul class="rec-list" id="resultList"></ul>
+        <button type="button" class="btn btn-line small" id="resultToggle">顯示更多</button>
+      </div>
+      <div>
+        <h2 class="h3">工作討論議錄</h2>
+        <ul class="rec-list" id="minuteList"></ul>
+        <a class="more" id="minutesMore" href="#">原系統議錄列表 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 教學資源（「資源」分頁） ========== -->
+  <section class="band" id="resources">
+    <div class="wrap">
+      <h2 class="h2">數位學習與<br><em>多元教學資源</em></h2>
+      <div id="resGroups"></div>
+    </div>
+  </section>
+
+  <!-- ========== 聯絡 ========== -->
+  <section class="contact" id="contact">
+    <div class="wrap contact-in">
+      <div>
+        <h2 class="h2 light">有問題，<br>找教學部。</h2>
+        <p>彰化市旭光路 235 號 教學研究大樓 5 樓（教學部）<br>聯絡分機 4368</p>
+      </div>
+      <div class="contact-links">
+        <a class="btn btn-gold" id="lnkContacts" href="#">各指標業務窗口聯絡資訊</a>
+        <a class="btn btn-ghost" id="lnkExperts" href="#">醫事職類輔導專家名單</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <img src="assets/logo-full.png" alt="彰化基督教醫院 醫學中心 彰化唯一" width="260" height="63">
+  <p>本網站內容為財團法人彰化基督教醫院所有，未經授權・禁止轉載。</p>
+  <p class="src" id="dataSrc"></p>
+</footer>
+
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
